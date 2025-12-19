@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { GoogleGenerativeAI } from '@google/genai';
 import { marked } from 'marked';
+
+const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
 
 interface Message {
   id: string;
@@ -13,7 +15,6 @@ function App() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [loading, setLoading] = useState(false);
-  const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -30,29 +31,43 @@ function App() {
     setLoading(true);
 
     try {
-      if (!apiKey) {
+      if (!API_KEY) {
         throw new Error('VITE_GEMINI_API_KEY is not set');
       }
 
-      const client = new GoogleGenerativeAI({ apiKey });
-      const model = client.getGenerativeModel({ model: 'gemini-3.5-flash' });
+      const requestBody = {
+        contents: [
+          {
+            role: 'user',
+            parts: [{ text: input }],
+          },
+        ],
+        generationConfig: {
+          temperature: 1,
+          topK: 40,
+          topP: 0.95,
+          maxOutputTokens: 8192,
+        },
+      };
 
-      const conversationHistory = messages.map((msg) => ({
-        role: msg.role,
-        parts: [{ text: msg.content }],
-      }));
+      const response = await fetch(
+        `${API_URL}?key=${API_KEY}`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(requestBody),
+        }
+      );
 
-      conversationHistory.push({
-        role: 'user',
-        parts: [{ text: input }],
-      });
+      if (!response.ok) {
+        throw new Error(`API Error: ${response.status} ${response.statusText}`);
+      }
 
-      const result = await model.generateContent({
-        contents: conversationHistory,
-      });
-
+      const data = await response.json();
       const responseText =
-        result.response.candidates?.[0]?.content?.parts?.[0]?.text || 'No response';
+        data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response';
 
       const assistantMessage: Message = {
         id: (Date.now() + 1).toString(),
@@ -154,7 +169,7 @@ function App() {
                 borderRadius: '0.5rem',
                 backgroundColor: '#334155',
               }}>
-                <span style={{ animation: 'pulse 1.5s infinite' }}>Typing...</span>
+                <span>Typing...</span>
               </div>
             </div>
           )}

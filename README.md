@@ -1,75 +1,20 @@
-# Gemini 3 Flash Messenger
-
 <div align="center">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/8/8a/Google_Gemini_logo.svg" width="200" alt="Gemini Logo" />
+<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
 </div>
 
-## 🚀 About
+# Run and deploy your AI Studio app
 
-Modern chat application powered by Google's Gemini 3 Flash AI, built with React, TypeScript, and Supabase.
+This contains everything you need to run your app locally.
 
-## ✨ Features
+View your app in AI Studio: https://ai.studio/apps/drive/1KhSSvW_C_ylpyww6V8TS7SGlXxT77x_Y
 
-- 💬 Real-time messaging with Supabase
-- 🤖 AI-powered chat assistant using Gemini 3 Flash
-- 🔐 Secure authentication with Supabase Auth
-- 📸 Image upload and analysis
-- 🎨 Beautiful dark-themed UI
-- 📱 Responsive design for mobile and desktop
-- ✍️ Markdown support in messages
+## Run Locally
 
-## 🛠️ Tech Stack
+**Prerequisites:**  Node.js
 
-- **Frontend**: React 19 + TypeScript
-- **Build Tool**: Vite
-- **AI**: Google Gemini API
-- **Database**: Supabase
-- **Styling**: Tailwind CSS (via inline styles)
-- **Markdown**: Marked.js
 
-## 📦 Installation
-
-```bash
-# Clone repository
-git clone https://github.com/sonyddr666/chat-genai-app.git
-cd chat-genai-app
-
-# Install dependencies
-npm install
-
-# Configure environment variables
-# Edit .env.local with your Gemini API key
-
-# Run development server
-npm run dev
-```
-
-## ⚙️ Configuration
-
-Create a `.env.local` file with:
-
-```env
-GEMINI_API_KEY=your_gemini_api_key_here
-```
-
-## 🚀 Deployment
-
-```bash
-# Build for production
-npm run build
-
-# Preview production build
-npm run preview
-```
-
-## 📝 License
-
-MIT License - feel free to use this project!
-
-## 👤 Author
-
-Developed by sonyddr666
-
----
-
-⚡ Powered by Gemini 3 Flash
+1. Install dependencies:
+   `npm install`
+2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+3. Run the app:
+   `npm run dev`
